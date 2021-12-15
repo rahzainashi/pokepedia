@@ -1,24 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Switch, Route } from "react-router-dom";
+
+//pages
+import Home from "./Pages/Home";
+import MyPokemonList from "./Pages/MyPokemonList";
+import PokemonDetail from "./Pages/PokemonDetail";
+import PokemonCatch from "./Pages/PokemonCatch";
+
+//graphql Related Import
+import { ApolloProvider } from "@apollo/client";
+import { client } from "./GraphQL/client";
+import NavigationBar from "./Components/NavigationBar";
+
+import ScrollToTop from "./Components/scrollToTop";
+import { ThemeProvider } from "./util/ThemeManager";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ApolloProvider client={client}>
+      <ThemeProvider>
+        <BrowserRouter>
+          <ScrollToTop>
+            <NavigationBar />
+            <Switch>
+              <Route exact path="/" component={Home} />
+              <Route exact path="/pokemon-details" component={PokemonDetail} />
+              <Route exact path="/my-pokemon" component={MyPokemonList} />
+              <Route exact path="/catching-pokemon" component={PokemonCatch} />
+            </Switch>
+          </ScrollToTop>
+        </BrowserRouter>
+      </ThemeProvider>
+    </ApolloProvider>
   );
 }
 
